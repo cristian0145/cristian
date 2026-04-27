@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎵💖 De mi Cristian 🎵💖</title>
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+    margin:0;
+    min-height:100vh;
+    background:radial-gradient(circle at top,#ff7abf,#270021,#000);
+    color:white;
+    font-family:'Segoe UI',sans-serif;
+    text-align:center;
+    overflow:hidden;
+}
+
+.contenedor{
+    width:100%;
+    height:100vh;
+    padding:10px 14px 95px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+h1{
+    margin:5px 0 2px;
+    color:#ffc1e3;
+    text-shadow:0 0 15px #ff1493;
+}
+
+.subtitulo{
+    margin:0 0 10px;
+    color:#ffd6ec;
+}
+
+/* AUDIO */
+audio{
+    width:90%;
+    max-width:400px;
+    margin-bottom:20px;
+}
+
+/* VIDEOS PC */
+.lado-video{
+    position:fixed;
+    top:50%;
+    transform:translateY(-50%);
+    width:120px;
+    height:200px;
+    object-fit:cover;
+    border-radius:20px;
+    box-shadow:0 0 25px #ff69b4;
+}
+
+#video-izq{ left:4%; }
+#video-der{ right:4%; }
+
+/* KARAOKE */
+.karaoke{
+    width:90%;
+    max-width:500px;
+    height:55vh;
+    overflow-y:auto;
+    padding:15px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.1);
+}
+
+.linea{
+    opacity:.3;
+    margin:8px 0;
+}
+
+.linea.activa{
+    opacity:1;
+    font-size:1.3em;
+    text-shadow:0 0 10px #ff69b4;
+}
+
+/* BOTON */
+.boton-volver{
+    position:fixed;
+    bottom:15px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#ff4f9a;
+    padding:10px 15px;
+    border-radius:20px;
+    color:white;
+    text-decoration:none;
+}
+
+/* 📱 CELULAR */
+@media(max-width:768px){
+
+    audio{
+        margin-bottom:150px;
+    }
+
+    .lado-video{
+        position:absolute;
+        top:210px;
+        transform:none;
+        width:82px;
+        height:120px;
+    }
+
+    #video-izq{ left:13%; }
+    #video-der{ right:13%; }
+
+    .karaoke{
+        width:88%;
+        height:38vh;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<img 
+src="https://dl.dropboxusercontent.com/scl/fi/traqxpsas86q1w2glqs3k/video1.webp?rlkey=j0ucgojwm6alaqmvhizyqtb0h&st=u6i3d77s"
+class="lado-video"
+id="video-izq">
+
+<video autoplay loop muted playsinline class="lado-video" id="video-der">
+    <source src="https://dl.dropboxusercontent.com/scl/fi/alha21huq48mlsyr3hufv/video2.mp4?rlkey=tfdi95bg74kxz6pqpc08akn1s&st=uj8f497s" type="video/mp4">
+</video>
+
+<div class="contenedor">
+
+<h1>🎵💖 De mi Cristian 🎵💖</h1>
+<h2 class="subtitulo">💖 Para ti Lucy :3 💖</h2>
+
+<audio id="audio" controls>
+    <source src="https://dl.dropboxusercontent.com/scl/fi/h07pjfnxdfc9mm6zosjzd/musica1.mp3?rlkey=rfbtmmx4w5lydemu3kyii7vac&st=dr4621zy" type="audio/mpeg">
+</audio>
+
+<div class="karaoke" id="karaoke"></div>
+
+</div>
+
+<a href="index.html" class="boton-volver">🌌 Volver</a>
+
+<script>
+const letra = [
+{t:15,texto:"Y si te parece que"},
+{t:17,texto:"Yo estoy enamorado tuyo"},
+{t:20,texto:"Eso es un invento, intuyo"},
+{t:22,texto:"No des crédito a murmullos"},
+{t:24,texto:"Porque casi nunca llamo"},
+{t:27,texto:"Para decir que te amo"},
+{t:30,texto:"Y más de una vez lo hice"},
+{t:32,texto:"A un número equivocado"},
+{t:35,texto:"Casi nunca nadie dice"},
+{t:37,texto:"Que yo estoy enamorado tuyo"},
+{t:45,texto:"Raramente desespero"},
+{t:47,texto:"Por tenerte aquí a mi lado"},
+{t:50,texto:"Y eso no significa"},
+{t:52,texto:"Que tenga un significado"},
+{t:55,texto:"Si pensás que amor yo siento"},
+{t:57,texto:"Por favor no hagás pamento"},
+{t:60,texto:"No comentes con tu gente"},
+{t:62,texto:"Sobre nuestro asunto"},
+{t:65,texto:"Casi nunca nadie dice"},
+{t:67,texto:"Que yo estoy enamorado tuyo"},
+{t:75,texto:"No te vistas, no te hagás la nunca vista"},
+{t:80,texto:"Tengo en vista a cantarte un"},
+{t:83,texto:"Hasta la vista"},
+{t:90,texto:"Tengo lista una canción que dice"},
+{t:93,texto:"Hasta la vista, señorita 💖"}
+];
+
+const karaoke = document.getElementById("karaoke");
+const audio = document.getElementById("audio");
+
+letra.forEach((l,i)=>{
+    let p=document.createElement("p");
+    p.className="linea";
+    p.textContent=l.texto;
+    p.id="l"+i;
+    karaoke.appendChild(p);
+});
+
+audio.addEventListener("timeupdate",()=>{
+    let actual=0;
+
+    for(let i=0;i<letra.length;i++){
+        if(audio.currentTime>=letra[i].t){
+            actual=i;
+        }
+    }
+
+    document.querySelectorAll(".linea").forEach(l=>l.classList.remove("activa"));
+
+    let activa=document.getElementById("l"+actual);
+    if(activa){
+        activa.classList.add("activa");
+        activa.scrollIntoView({behavior:"smooth",block:"center"});
+    }
+});
+</script>
+
+</body>
+</html>
